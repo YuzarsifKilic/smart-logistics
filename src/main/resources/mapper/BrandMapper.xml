@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yuzarsif.productcatalogueservice.repository.BrandMapper">
+
+    <insert id="insertBrand" parameterType="com.yuzarsif.productcatalogueservice.model.Brand"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO brand (id, name, slug, description, logo_url, banner_url, website_url, origin_country, established_year, social_media, status, created_at, updated_at, meta_title, meta_keywords, is_featured, sort_order)
+        VALUES (#{id}, #{name}, #{slug}, #{description}, #{logoUrl}, #{bannerUrl}, #{websiteUrl}, #{originCountry}, #{establishedYear},#{socialMedia}, #{status}, NOW(), NOW(), #{metaTitle}, #{metaKeywords}, #{isFeatured}, #{sortOrder})
+    </insert>
+
+    <update id="updateBrand" parameterType="com.yuzarsif.productcatalogueservice.model.Brand">
+        UPDATE brand SET
+                         name = #{name},
+                         slug = #{slug},
+                         description = #{description},
+                         logo_url = #{logoUrl},
+                         banner_url = #{bannerUrl},
+                         website_url = #{websiteUrl},
+                         origin_country = #{originCountry},
+                         updated_at = NOW(),
+                         meta_title = #{metaTitle},
+                         meta_keywords = #{metaKeywords},
+                         is_featured = #{isFeatured},
+                         sort_order = #{sortOrder},
+                         social_media = #{socialMedia},
+                         status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <select id="findBrandById" parameterType="java.util.UUID" resultType="com.yuzarsif.productcatalogueservice.model.Brand">
+        SELECT * FROM brand WHERE id = #{id}
+    </select>
+
+    <select id="findBrandBySlug" parameterType="string" resultType="com.yuzarsif.productcatalogueservice.model.Brand">
+        SELECT * FROM brand WHERE slug = #{slug}
+    </select>
+
+    <select id="findAllBrands" resultType="com.yuzarsif.productcatalogueservice.model.Brand">
+        SELECT * FROM brand
+    </select>
+
+    <select id="findBrandsByStatus" parameterType="string" resultType="com.yuzarsif.productcatalogueservice.model.Brand">
+        SELECT * FROM brand WHERE status = #{status}
+    </select>
+
+    <select id="findBrandByName" parameterType="string" resultType="com.yuzarsif.productcatalogueservice.model.Brand">
+        SELECT * FROM brand WHERE name = #{name}
+    </select>
+
+    <delete id="deleteBrandById" parameterType="java.util.UUID">
+        DELETE FROM brand WHERE id = #{id}
+    </delete>
+
+</mapper>

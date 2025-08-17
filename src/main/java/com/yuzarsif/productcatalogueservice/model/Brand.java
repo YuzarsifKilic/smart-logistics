@@ -1,5 +1,6 @@
 package com.yuzarsif.productcatalogueservice.model;
 
+import com.yuzarsif.productcatalogueservice.dto.request.BrandRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +18,7 @@ import java.util.Map;
 @Builder
 public class Brand {
 
-    private String id;
+    private UUID id;
     private String name;
     private String slug;
     private String description;
@@ -28,7 +30,7 @@ public class Brand {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Map<String, String> socialMedia; // Instagram, Facebook, Twitter, etc.
-    private BrandStatus status = BrandStatus.ACTIVE;
+    private BrandStatus status;
     private Boolean isFeatured;
     private Integer sortOrder;
     private String metaTitle;
@@ -56,5 +58,20 @@ public class Brand {
                 .replaceAll("[^a-z0-9\\s-]", "")
                 .replaceAll("\\s+", "-")
                 .replaceAll("-+", "-");
+    }
+
+    public void updateAllInfo(BrandRequest request) {
+        this.name = request.getName();
+        this.description = request.getDescription();
+        this.logoUrl = request.getLogoUrl();
+        this.bannerUrl = request.getBannerUrl();
+        this.websiteUrl = request.getWebsiteUrl();
+        this.originCountry = request.getOriginCountry();
+        this.establishedYear = request.getEstablishedYear();
+        this.socialMedia = request.getSocialMedia();
+        this.metaTitle = request.getMetaTitle();
+        this.metaKeywords = request.getMetaKeywords();
+        this.slug = generateSlug(name);
+        this.updatedAt = LocalDateTime.now();
     }
 }
